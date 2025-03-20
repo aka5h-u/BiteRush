@@ -4,11 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { SWIGGY_API, IMG_CAROUSEL } from "../utils/constants";
-
+import { useSelector } from "react-redux";
 const Carousel = () => {
   const [imageData, setImageData] = useState([]);
+  const latlngCode = useSelector((store) => store.location.locCode);
   const fetchData = async () => {
-    const data = await fetch(SWIGGY_API);
+    const caraouselApi = SWIGGY_API(
+      latlngCode[0]?.geometry?.location?.lat
+        ? latlngCode[0]?.geometry?.location?.lat
+        : "12.9352403",
+      latlngCode[0]?.geometry?.location?.lng
+        ? latlngCode[0]?.geometry?.location?.lng
+        : "77.624532"
+    );
+    const data = await fetch(caraouselApi);
     const json = await data.json();
     //console.log(json?.data?.cards[0]?.card?.card?.imageGridCards?.info);  //carousel data
 

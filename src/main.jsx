@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainContainer from "./components/MainContainer.jsx";
 import RestaurantMenu from "./components/RestaurantMenu.jsx";
 import CartPage from "./components/CartPage.jsx";
+import Login from "./components/Login.jsx";
 
 const appRouter = createBrowserRouter([
   {

@@ -2,8 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RES_MENU_IMG } from "../utils/constants";
 import { addItem, removeItem, clearCart } from "../utils/cartSlice";
+import SidebarLogin from "./SidebarLogin";
 
 const CartPage = () => {
+  const handlePlaceOrder = () => {};
   const dispatch = useDispatch();
 
   const clearCartHandler = () => {
@@ -75,7 +77,10 @@ const CartPage = () => {
         </span>
       </div>
       <div className="p-2 m-2 ">
-        <button className="bg-green-500 text-white p-2 rounded-lg cursor-pointer mx-5">
+        <button
+          className="bg-green-500 text-white p-2 rounded-lg cursor-pointer mx-5"
+          onClick={() => handlePlaceOrder()}
+        >
           Place Order
         </button>
         <button

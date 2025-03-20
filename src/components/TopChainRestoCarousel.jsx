@@ -6,16 +6,35 @@ import { SWIGGY_API } from "../utils/constants";
 import { useEffect } from "react";
 import RestoCard from "./RestoCard";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const TopChainRestoCarousel = () => {
   const [imageData, setImageData] = useState([]);
-
+  //const [locationData, setLocationData] = useState();
+  const latlngCode = useSelector((store) => store.location.locCode);
   const fetchData = async () => {
-    const data = await fetch(SWIGGY_API);
+    const toprestaurantApi = SWIGGY_API(
+      latlngCode[0]?.geometry?.location?.lat
+        ? latlngCode[0]?.geometry?.location?.lat
+        : "12.9352403",
+      latlngCode[0]?.geometry?.location?.lng
+        ? latlngCode[0]?.geometry?.location?.lng
+        : "77.624532"
+    );
+
+    console.log(
+      latlngCode[0]?.geometry?.location?.lat,
+      latlngCode[0]?.geometry?.location?.lng
+    );
+    console.log(toprestaurantApi);
+    const data = await fetch(toprestaurantApi);
     const json = await data.json();
 
     console.log(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle); //top restao data
+    // setLocationData(latlngCode);
+    //console.log(latlngCode[0]?.address_components[0]?.long_name);
 
+    console.log("Lat lng code", latlngCode);
     setImageData(
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants || {}
@@ -24,7 +43,7 @@ const TopChainRestoCarousel = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [latlngCode]);
   const sliderRef = useRef(null);
   const settings = {
     dots: false,
@@ -39,7 +58,10 @@ const TopChainRestoCarousel = () => {
       <div className="border-b-2 border-gray-200 py-2">
         <div className="flex justify-between items-center px-4 mx-4 ">
           <h1 className="text-2xl font-bold  flex-1">
-            Top Restaurants in Bangalore
+            Top Restaurants in{" "}
+            {latlngCode[0]?.address_components[0]?.long_name
+              ? latlngCode[0]?.address_components[0]?.long_name
+              : "Bangalore"}
           </h1>
           <div className="flex items-center justify-between py-4">
             {/* Left Arrow */}
