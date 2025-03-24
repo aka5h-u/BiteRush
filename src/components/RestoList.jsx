@@ -26,7 +26,7 @@ const RestoList = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [latlngCode]);
 
   return (
     <>

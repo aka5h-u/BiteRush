@@ -26,7 +26,7 @@ const RestoMenuItems = ({ items }) => {
                 ? 100
                 : item?.card?.info?.price / 100}
             </p>
-            <p className="text-sm ">{item?.card?.info?.description}</p>
+            <p className="text-sm text-left">{item?.card?.info?.description}</p>
           </div>
 
           {/* Image Container - Stays on the right */}

@@ -8,13 +8,16 @@ import SidebarLogin from "./SidebarLogin";
 import ReactGoogleAutocomplete from "react-google-autocomplete";
 import { ADDRESS_AUTO_COMPLETE, ADDRESS_LAT_LNG } from "../utils/constants";
 import { addLatLng } from "../utils/locationSlice";
+import { updateName } from "../utils/userSlice";
 
 const Header = () => {
+  const user = useSelector((store) => store.user.name);
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState([]);
   const [dropdownToggle, setDropdownToggle] = useState(true);
   const dispatch = useDispatch();
+  console.log(user);
   const locationSelectHandler = async (placeId) => {
     console.log("clicked");
     const data = await fetch(ADDRESS_LAT_LNG + placeId);
@@ -77,7 +80,9 @@ const Header = () => {
       <div className="flex justify-end items-center gap-10 cursor-pointer">
         <div className="flex" onClick={() => handleSignIn()}>
           <User className="mr-2" />
-          <span>Sign in</span>
+
+          <span>{user}</span>
+
           {isOpen && <SidebarLogin />}
         </div>
 

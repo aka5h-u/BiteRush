@@ -4,8 +4,11 @@ import { FcGoogle } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { auth } from "../utils/firebase";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { updateName } from "../utils/userSlice";
 
 const SidebarLogin = () => {
+  const dispatch = useDispatch();
   const [userObj, setUserObj] = useState(null);
   const [isOpen, setIsOpen] = useState(true); // Added to control sidebar visibility
 
@@ -15,6 +18,7 @@ const SidebarLogin = () => {
       .then(() => {
         setUserObj(null);
         console.log("Signed out successfully");
+        dispatch(updateName("Sign In"));
       })
       .catch((error) => {
         console.error("Sign out error:", error);
@@ -28,7 +32,7 @@ const SidebarLogin = () => {
       .then((result) => {
         const user = result.user;
         setUserObj(user);
-        console.log("Signed in user:", user);
+        console.log("Signed in user:", user.displayName);
       })
       .catch((error) => {
         console.error("Sign in error:", error.message);
@@ -39,7 +43,8 @@ const SidebarLogin = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUserObj(currentUser);
-      console.log("Current user:", currentUser);
+      console.log("Signed in user:", currentUser.displayName);
+      dispatch(updateName(currentUser?.displayName));
     });
 
     // Cleanup subscription
