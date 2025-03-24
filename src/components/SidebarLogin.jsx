@@ -32,6 +32,7 @@ const SidebarLogin = () => {
       .then((result) => {
         const user = result.user;
         setUserObj(user);
+        dispatch(updateName(user?.displayName));
         console.log("Signed in user:", user.displayName);
       })
       .catch((error) => {
